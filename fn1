@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hải Anh — Portfolio</title>
+<meta name="description" content="Portfolio hành trình học kỹ năng số và AI của Nguyễn Hải Anh">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-cream:#FFF6D9;
+    --bg-soft:#FFFDF6;
+    --bg-blue:#EAF6FB;
+    --ink:#3A3226;
+    --ink-soft:#79705f;
+    --blue:#4FA8D8;
+    --blue-dark:#296f92;
+    --pink:#F2A0B5;
+    --purple:#B58FD1;
+    --green:#8FCB9B;
+    --navy:#374785;
+    --teal:#5FB8AE;
+    --card:#FFFFFF;
+    --shadow: 0 10px 30px rgba(58,50,38,0.10);
+    --shadow-sm: 0 4px 14px rgba(58,50,38,0.08);
+    --radius: 20px;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    font-family:'Quicksand', sans-serif;
+    color:var(--ink);
+    background:var(--bg-soft);
+    line-height:1.6;
+  }
+  h1,h2,h3{margin:0;}
+  p{margin:0;}
+  ul{margin:0;padding:0;list-style:none;}
+  a{color:inherit;text-decoration:none;}
+  img{max-width:100%;display:block;}
+
+  /* breadcrumb bar */
+  .breadcrumb{
+    position:sticky; top:0; z-index:50;
+    background:#F4EDDC;
+    border-bottom:1px solid #E7DCC0;
+    padding:8px 20px;
+    display:flex; align-items:center; justify-content:space-between;
+    font-size:0.8rem; color:var(--ink-soft);
+  }
+  .breadcrumb .path{display:flex; align-items:center; gap:6px; white-space:nowrap; overflow:hidden;}
+  .breadcrumb .path b{color:var(--ink); font-weight:700;}
+  .breadcrumb .dots{display:flex; gap:6px;}
+  .breadcrumb .dots span{width:9px;height:9px;border-radius:50%;display:inline-block;}
+  .breadcrumb .dots span:nth-child(1){background:var(--pink);}
+  .breadcrumb .dots span:nth-child(2){background:#F2D06B;}
+  .breadcrumb .dots span:nth-child(3){background:var(--green);}
+
+  /* folder-tab nav */
+  nav.tabs{
+    position:sticky; top:33px; z-index:49;
+    display:flex; gap:8px; flex-wrap:wrap;
+    padding:18px 24px 0 24px;
+    background:var(--bg-soft);
+  }
+  nav.tabs a{
+    position:relative;
+    display:inline-block;
+    padding:10px 20px;
+    font-weight:700;
+    font-size:0.95rem;
+    color:#fff;
+    border-radius:0 14px 14px 14px;
+    box-shadow:var(--shadow-sm);
+    transition:transform .15s ease, box-shadow .15s ease;
+  }
+  nav.tabs a::before{
+    content:"";
+    position:absolute; top:-10px; left:0;
+    width:56px; height:10px;
+    background:inherit;
+    border-radius:8px 8px 0 0;
+  }
+  nav.tabs a:hover, nav.tabs a:focus-visible{ transform:translateY(-2px); }
+  nav.tabs a[data-c="home"]{background:var(--blue);}
+  nav.tabs a[data-c="about"]{background:var(--purple);}
+  nav.tabs a[data-c="projects"]{background:var(--navy);}
+  nav.tabs a[data-c="conclusion"]{background:var(--teal);}
+
+  section{padding:70px 24px; max-width:1080px; margin:0 auto;}
+
+  .eyebrow{
+    display:inline-block;
+    font-size:0.78rem; letter-spacing:.14em; text-transform:uppercase;
+    font-weight:700; color:var(--blue-dark);
+    background:var(--bg-blue);
+    padding:5px 14px; border-radius:999px;
+    margin-bottom:14px;
+  }
+
+  /* HERO */
+  #home{
+    background:
+      radial-gradient(circle at 12% 20%, rgba(242,160,181,.35), transparent 40%),
+      radial-gradient(circle at 88% 75%, rgba(79,168,216,.28), transparent 42%),
+      var(--bg-cream);
+    padding-top:60px; padding-bottom:90px;
+    position:relative; overflow:hidden;
+    border-bottom-left-radius:60px; border-bottom-right-radius:60px;
+  }
+  .hero-inner{position:relative; text-align:center; z-index:2;}
+  .hero-sub1{font-size:1.3rem; color:var(--ink-soft); font-weight:600;}
+  .hero-title{
+    font-family:'Caveat', cursive;
+    font-size:clamp(3.2rem, 11vw, 6.5rem);
+    color:var(--blue-dark);
+    line-height:1;
+    margin:6px 0 10px 0;
+  }
+  .hero-title span{color:var(--pink);}
+  .hero-tag{
+    font-family:'Caveat', cursive;
+    font-size:1.6rem;
+    color:var(--ink-soft);
+    font-style:italic;
+  }
+  .star{
+    position:absolute;
+    color:var(--pink);
+    font-size:1.4rem;
+    animation:float 5s ease-in-out infinite;
+  }
+  @keyframes float{
+    0%,100%{transform:translateY(0) rotate(0deg);}
+    50%{transform:translateY(-10px) rotate(12deg);}
+  }
+  @media (prefers-reduced-motion: reduce){ .star{animation:none;} }
+
+  .mascot{
+    width:96px; height:96px; margin:36px auto 0 auto;
+    border-radius:50%;
+    background:#fff;
+    box-shadow:var(--shadow);
+    display:flex; align-items:center; justify-content:center;
+    font-size:2.4rem;
+  }
+
+  /* ABOUT */
+  #about{background:var(--bg-soft);}
+  .about-grid{
+    display:grid; grid-template-columns:280px 1fr; gap:36px;
+    align-items:start;
+  }
+  @media (max-width:720px){ .about-grid{grid-template-columns:1fr;} }
+
+  .about-card{
+    background:var(--card); border-radius:var(--radius); box-shadow:var(--shadow);
+    padding:28px; text-align:center;
+  }
+  .avatar{
+    width:120px; height:120px; border-radius:50%; margin:0 auto 16px auto;
+    background:conic-gradient(from 200deg, var(--blue), var(--purple), var(--pink), var(--blue));
+    display:flex; align-items:center; justify-content:center;
+    box-shadow:var(--shadow-sm);
+  }
+  .avatar span{
+    width:104px; height:104px; border-radius:50%; background:#fff;
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Caveat', cursive; font-size:2.6rem; color:var(--navy); font-weight:700;
+  }
+  .about-card h3{font-size:1.4rem;}
+  .about-card .role{color:var(--ink-soft); font-size:0.92rem; margin-top:4px;}
+  .chip-row{display:flex; flex-wrap:wrap; gap:8px; justify-content:center; margin-top:16px;}
+  .chip{
+    background:var(--bg-blue); color:var(--blue-dark); font-weight:600;
+    font-size:0.8rem; padding:6px 12px; border-radius:999px;
+  }
+
+  .info-blocks{display:grid; gap:20px;}
+  .info-card{
+    background:var(--card); border-radius:16px; box-shadow:var(--shadow-sm);
+    padding:22px 26px;
+  }
+  .info-card h4{
+    font-size:1rem; text-transform:uppercase; letter-spacing:.05em;
+    color:var(--blue-dark); margin-bottom:10px; font-weight:700;
+  }
+  .info-card ul li{
+    position:relative; padding-left:20px; margin:7px 0; color:var(--ink); font-size:0.95rem;
+  }
+  .info-card ul li::before{
+    content:"✦"; position:absolute; left:0; color:var(--pink); font-size:0.8rem; top:3px;
+  }
+
+  /* PROJECTS */
+  #projects{background:var(--bg-blue); border-radius:60px; margin:0 24px; max-width:none; width:auto;}
+  #projects .inner{max-width:1080px; margin:0 auto;}
+  .folder-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:26px; margin-top:36px;}
+
+  details.folder-card{
+    background:var(--card);
+    border-radius:0 18px 18px 18px;
+    box-shadow:var(--shadow-sm);
+    overflow:hidden;
+  }
+  details.folder-card summary{
+    list-style:none; cursor:pointer;
+    padding:18px 22px;
+    color:#fff; font-weight:700;
+    position:relative;
+    display:flex; align-items:center; justify-content:space-between; gap:10px;
+  }
+  details.folder-card summary::-webkit-details-marker{display:none;}
+  details.folder-card summary::before{
+    content:""; position:absolute; top:-12px; left:0;
+    width:64px; height:12px; background:inherit; border-radius:8px 8px 0 0;
+  }
+  details.folder-card summary .tag{
+    font-size:0.72rem; text-transform:uppercase; letter-spacing:.08em; opacity:.85; display:block; font-weight:700;
+  }
+  details.folder-card summary .name{font-size:1.05rem; font-weight:700;}
+  details.folder-card summary .chevron{transition:transform .2s ease; font-size:1rem;}
+  details[open] summary .chevron{transform:rotate(90deg);}
+
+  details.folder-card .content{padding:18px 22px 22px 22px;}
+  details.folder-card .content p{color:var(--ink-soft); font-size:0.9rem; margin-bottom:10px;}
+  details.folder-card .content ul li{
+    position:relative; padding-left:18px; margin:6px 0; font-size:0.92rem;
+  }
+  details.folder-card .content ul li::before{
+    content:"–"; position:absolute; left:0; color:var(--ink-soft);
+  }
+
+  .c1 summary{background:var(--blue);}
+  .c2 summary{background:var(--purple);}
+  .c3 summary{background:var(--navy);}
+  .c4 summary{background:var(--green);}
+  .c5 summary{background:var(--pink);}
+  .c6 summary{background:var(--teal);}
+
+  /* CONCLUSION */
+  #conclusion{background:var(--bg-soft);}
+  .note{
+    background:#FFF7DE;
+    border-radius:18px;
+    box-shadow:var(--shadow);
+    padding:36px 40px;
+    position:relative;
+    max-width:760px;
+    margin:36px auto 0 auto;
+  }
+  .note::before{
+    content:"note :"; font-family:'Caveat', cursive; font-size:1.4rem; font-weight:700;
+    color:var(--blue-dark); display:block; margin-bottom:12px;
+  }
+  .note p{font-size:0.98rem; color:var(--ink);}
+  .note p + p{margin-top:14px;}
+
+  /* FOOTER */
+  footer{
+    background:var(--navy); color:#fff; padding:50px 24px 30px 24px; margin-top:40px;
+  }
+  .footer-inner{max-width:1080px; margin:0 auto; display:grid; grid-template-columns:1fr 1fr; gap:30px;}
+  @media (max-width:640px){ .footer-inner{grid-template-columns:1fr;} }
+  footer h4{font-family:'Caveat', cursive; font-size:1.8rem; margin-bottom:14px;}
+  footer ul li{margin:8px 0; font-size:0.92rem; opacity:.92; display:flex; gap:8px; align-items:center;}
+  footer a:hover{text-decoration:underline;}
+  .foot-bottom{
+    max-width:1080px; margin:30px auto 0 auto; padding-top:20px;
+    border-top:1px solid rgba(255,255,255,.15);
+    font-size:0.8rem; opacity:.7; text-align:center;
+  }
+
+  .section-head{max-width:640px;}
+  .section-head h2{font-family:'Caveat', cursive; font-size:2.6rem; color:var(--navy); margin-bottom:6px;}
+  .section-head p{color:var(--ink-soft); font-size:1rem;}
+</style>
+</head>
+<body>
+
+<div class="breadcrumb">
+  <div class="path">🏠 <span>This PC</span> › <span>HaiAnh_Portfolio</span> › <b id="crumb-current">home</b></div>
+  <div class="dots"><span></span><span></span><span></span></div>
+</div>
+
+<nav class="tabs">
+  <a href="#home" data-c="home">home</a>
+  <a href="#about" data-c="about">about.me</a>
+  <a href="#projects" data-c="projects">projects</a>
+  <a href="#conclusion" data-c="conclusion">conclusion</a>
+</nav>
+
+<section id="home">
+  <span class="star" style="top:14%; left:8%;">✦</span>
+  <span class="star" style="top:30%; left:88%; animation-delay:1s;">✧</span>
+  <span class="star" style="top:70%; left:12%; animation-delay:2s;">✦</span>
+  <span class="star" style="top:78%; left:82%; animation-delay:1.4s;">✧</span>
+  <span class="star" style="top:10%; left:50%; animation-delay:.6s;">✦</span>
+
+  <div class="hero-inner">
+    <p class="hero-sub1">welcome to my</p>
+    <h1 class="hero-title">port<span>folio</span></h1>
+    <p class="hero-tag">my journey to master AI-related skills ✨</p>
+    <div class="mascot" aria-hidden="true">🐰</div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="section-head">
+    <span class="eyebrow">02 — about me</span>
+    <h2>Xin chào, mình là Hải Anh</h2>
+    <p>Một cuốn nhật ký nhỏ về việc học kỹ năng số và trí tuệ nhân tạo, từ những bước đầu tiên.</p>
+  </div>
+
+  <div class="about-grid" style="margin-top:32px;">
+    <div class="about-card">
+      <div class="avatar"><span>HA</span></div>
+      <h3>Nguyễn Hải Anh</h3>
+      <p class="role">Sinh viên năm nhất<br>Ngôn ngữ Anh — ULIS, VNU</p>
+      <div class="chip-row">
+        <span class="chip">🎧 nghe nhạc</span>
+        <span class="chip">🤖 tìm hiểu AI</span>
+        <span class="chip">📚 học hỏi điều mới</span>
+      </div>
+    </div>
+
+    <div class="info-blocks">
+      <div class="info-card">
+        <h4>Mục tiêu học tập</h4>
+        <ul>
+          <li>Nâng cao hiểu biết về các kỹ năng số, đặc biệt là trí tuệ nhân tạo (AI), nhằm phục vụ việc học tập và công việc sau này.</li>
+          <li>Hình thành tư duy số và ranh giới đạo đức khi sử dụng AI.</li>
+          <li>Có thể sử dụng thành thạo AI như một công cụ hỗ trợ đắc lực trong học phần Nhập môn CNS &amp; Trí tuệ nhân tạo và các học phần khác.</li>
+        </ul>
+      </div>
+      <div class="info-card">
+        <h4>Điểm mạnh</h4>
+        <ul>
+          <li>Ham học hỏi, luôn không ngừng nâng cao trình độ các kỹ năng cá nhân.</li>
+          <li>Sử dụng thành thạo bộ công cụ Google Workspace và Microsoft 365.</li>
+          <li>Có khả năng áp dụng kiến thức đã học vào thực tế.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="projects">
+  <div class="inner">
+    <div class="section-head">
+      <span class="eyebrow">03 — projects</span>
+      <h2>table of contents</h2>
+      <p>Mỗi thư mục dưới đây là một bài thực hành trong hành trình — bấm vào để mở ra xem chi tiết.</p>
+    </div>
+
+    <div class="folder-grid">
+
+      <details class="folder-card c1" open>
+        <summary>
+          <span><span class="tag">module 01</span><span class="name">Thao tác với tệp &amp; thư mục</span></span>
+          <span class="chevron">›</span>
+        </summary>
+        <div class="content">
+          <p>Làm quen với File Explorer trên Windows — nền tảng của mọi công việc số.</p>
+          <ul>
+            <li>Tạo, đổi tên thư mục và tệp tin mới</li>
+            <li>Sao chép (Copy) và cắt-dán (Cut/Paste) tệp giữa các thư mục</li>
+            <li>Di chuyển, sắp xếp cấu trúc thư mục cây hợp lý</li>
+            <li>Xóa và khôi phục tệp từ Thùng rác (Recycle Bin)</li>
+          </ul>
+        </div>
+      </details>
+
+      <details class="folder-card c2">
+        <summary>
+          <span><span class="tag">module 02</span><span class="name">Tìm kiếm &amp; đánh giá thông tin học thuật</span></span>
+          <span class="chevron">›</span>
+        </summary>
+        <div class="content">
+          <p>Rèn kỹ năng tra cứu và chọn lọc nguồn tin đáng tin cậy phục vụ học tập.</p>
+          <ul>
+            <li>Xác định từ khóa tìm kiếm hiệu quả</li>
+            <li>Đánh giá độ tin cậy và tính cập nhật của nguồn</li>
+            <li>Tổng hợp thông tin thành nội dung của riêng mình</li>
+          </ul>
+        </div>
+      </details>
+
+      <details class="folder-card c3">
+        <summary>
+          <span><span class="tag">module 03</span><span class="name">Viết prompt hiệu quả cho học tập</span></span>
+          <span class="chevron">›</span>
+        </summary>
+        <div class="content">
+          <p>So sánh và sử dụng các công cụ AI hỗ trợ viết và học tập.</p>
+          <ul>
+            <li>Thực hành đặt prompt rõ ràng, có ngữ cảnh cho ChatGPT, Gemini</li>
+            <li>So sánh Grammarly, Quillbot, Writefull, ChatGPT trên cùng một bài viết</li>
+            <li>Kết hợp Trello và Notion để tổ chức tác vụ học tập</li>
+          </ul>
+        </div>
+      </details>
+
+      <details class="folder-card c4">
+        <summary>
+          <span><span class="tag">module 04</span><span class="name">Công cụ trực tuyến cho dự án nhóm</span></span>
+          <span class="chevron">›</span>
+        </summary>
+        <div class="content">
+          <p>Vận hành một dự án nhóm thực tế — video CNS 21/6 — bằng bộ công cụ cộng tác.</p>
+          <ul>
+            <li><b>Google Docs</b> — soạn thảo và góp ý nội dung cùng lúc</li>
+            <li><b>Google Drive</b> — lưu trữ, phân loại và chia sẻ tài liệu nhóm</li>
+            <li><b>Zalo</b> — trao đổi tiến độ, phân công nhiệm vụ hằng ngày</li>
+            <li><b>Trello</b> — theo dõi trạng thái công việc: cần làm / đang làm / hoàn thành</li>
+          </ul>
+        </div>
+      </details>
+
+      <details class="folder-card c5">
+        <summary>
+          <span><span class="tag">module 05</span><span class="name">AI hỗ trợ sáng tạo nội dung</span></span>
+          <span class="chevron">›</span>
+        </summary>
+        <div class="content">
+          <p>Biến ý tưởng thành hình ảnh và slide trình bày bằng AI tạo sinh.</p>
+          <ul>
+            <li>Viết prompt cho ChatGPT / DALL·E để tạo infographic minh họa</li>
+            <li>Dùng Canva AI dựng thiết kế sản phẩm từ dàn ý nội dung</li>
+            <li>Tinh chỉnh phong cách, bố cục để phù hợp mục đích trình bày</li>
+          </ul>
+        </div>
+      </details>
+
+      <details class="folder-card c6">
+        <summary>
+          <span><span class="tag">module 06</span><span class="name">Sử dụng AI có trách nhiệm</span></span>
+          <span class="chevron">›</span>
+        </summary>
+        <div class="content">
+          <p>Phân tích chiến lược PESTEL của Highlands Coffee cùng AI, qua ba lượt prompt: khởi tạo → phát triển → phản biện — đồng thời đúc kết 6 nguyên tắc đạo đức khi dùng AI trong học thuật.</p>
+          <ul>
+            <li><b>Cơ trưởng</b> — người ra quyết định cuối cùng luôn là mình</li>
+            <li><b>Thẩm định độc lập</b> — luôn kiểm chứng lại thông tin AI đưa ra</li>
+            <li><b>Sàng lọc tư duy</b> — dùng AI để gợi mở, không để thay tư duy</li>
+            <li><b>Bản sắc cá nhân</b> — giữ giọng văn và quan điểm của riêng mình</li>
+            <li><b>Ranh giới học thuật</b> — tuân thủ quy định sử dụng AI của nhà trường</li>
+            <li><b>Lá chắn dữ liệu</b> — không đưa thông tin cá nhân/nhạy cảm vào AI</li>
+          </ul>
+        </div>
+      </details>
+
+    </div>
+  </div>
+</section>
+
+<section id="conclusion">
+  <div class="section-head" style="margin:0 auto; text-align:center;">
+    <span class="eyebrow">04 — conclusion</span>
+    <h2>đôi điều đúc kết</h2>
+  </div>
+
+  <div class="note">
+    <p>Quá trình thực hành các thao tác cơ bản trên tệp và thư mục đã nâng tầm tư duy quản trị dữ liệu số của mình. Những thao tác tưởng chừng đơn giản như sao chép, di chuyển, hay đổi tên thực chất lại rèn luyện tư duy hệ thống và tính kỷ luật.</p>
+    <p>Hơn thế nữa, việc xây dựng cấu trúc thư mục hợp lý, nâng cao tốc độ xử lý dữ liệu và ý thức bảo mật giúp mình chủ động phòng ngừa rủi ro mất mát dữ liệu. Nhìn chung, đây là bước thực hành nhỏ nhưng là tiền đề vững chắc cho việc xử lý các hệ thống thông tin quy mô lớn hơn sau này.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div>
+      <h4>liên hệ</h4>
+      <ul>
+        <li>✉️ <a href="mailto:ng.haianh139@gmail.com">ng.haianh139@gmail.com</a></li>
+        <li>📍 Nam Từ Liêm, Hà Nội</li>
+        <li>📞 0376942***</li>
+      </ul>
+    </div>
+    <div>
+      <h4>theo dõi mình</h4>
+      <ul>
+        <li>📷 <a href="https://www.instagram.com/erociels.oul/" target="_blank" rel="noopener">instagram — @erociels.oul</a></li>
+        <li>💬 <a href="https://www.facebook.com/qyeonqui?locale=vi_VN" target="_blank" rel="noopener">facebook</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="foot-bottom">Nguyễn Hải Anh · portfolio hành trình học AI · 2026</div>
+</footer>
+
+<script>
+  const sections = document.querySelectorAll('section[id]');
+  const crumb = document.getElementById('crumb-current');
+  const tabs = document.querySelectorAll('nav.tabs a');
+
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){
+        const id = entry.target.id;
+        crumb.textContent = id;
+        tabs.forEach(t=>{
+          t.style.filter = t.dataset.c === id ? 'brightness(1)' : 'brightness(0.92)';
+          t.style.outline = t.dataset.c === id ? '2px solid rgba(255,255,255,.6)' : 'none';
+        });
+      }
+    });
+  }, {threshold:0.4});
+
+  sections.forEach(s=>io.observe(s));
+
+  document.querySelectorAll('details.folder-card').forEach(d=>{
+    d.addEventListener('toggle', ()=>{
+      if(d.open){
+        document.querySelectorAll('details.folder-card').forEach(other=>{
+          if(other!==d) other.open = false;
+        });
+      }
+    });
+  });
+</script>
+
+</body>
+</html>
